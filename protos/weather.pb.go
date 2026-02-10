@@ -261,7 +261,7 @@ const file_weather_proto_rawDesc = "" +
 	"\x0etemperature_2m\x18\x02 \x01(\tR\rtemperature2m2>\n" +
 	"\x0eWeatherService\x12,\n" +
 	"\n" +
-	"GetWeather\x12\x12.GetWeatherRequest\x1a\b.Weather\"\x00B7Z5github.com/maljanahi99/weather-tracker/protos/weatherb\x06proto3"
+	"GetWeather\x12\x12.GetWeatherRequest\x1a\b.Weather\"\x00B7Z5github.com/maljanahi99/weather_tracker/protos/weatherb\x06proto3"
 
 var (
 	file_weather_proto_rawDescOnce sync.Once
