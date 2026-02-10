@@ -1,8 +1,8 @@
-//go:generate protoc --proto_path=. --go_out=. --go_opt=paths=source_relative weather.proto
+//go:generate protoc -I=. --go_out=. --go_opt=paths=source_relative weather.proto
 
 syntax = "proto3";
 
-option go_package = "github.com/maljanahi99/protos/weather_tracker";
+option go_package = "github.com/maljanahi99/weather-tracker/protos/weather";
 
 message GetWeatherRequest {
   uint32 weather_id = 1;
