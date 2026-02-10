@@ -1,0 +1,30 @@
+//go:generate protoc --proto_path=. --go_out=. --go_opt=paths=source_relative weather.proto
+
+syntax = "proto3";
+
+option go_package = "github.com/maljanahi99/protos/weather_tracker";
+
+message GetWeatherRequest {
+  uint32 weather_id = 1;
+}
+
+message Weather {
+  int32 id = 1;
+  string timezone = 2;
+  string time_abbreviation = 3;
+  Hourly hourly = 4;
+  Hourly_units hourly_units = 5;
+}
+
+message Hourly {
+  string time = 1;
+  double temperature_2m = 2;
+}
+
+message Hourly_units {
+  string temperature_2m = 2;
+}
+
+service WeatherService {
+  rpc GetWeather(GetWeatherRequest) returns (Weather) {};
+}
