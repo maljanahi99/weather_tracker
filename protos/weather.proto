@@ -1,4 +1,4 @@
-//go:generate protoc -I=. --go_out=. --go_opt=paths=source_relative weather.proto
+//go:generate protoc -I=. --go_out=. --go_opt=paths=source_relative weather.proto 
 
 syntax = "proto3";
 
