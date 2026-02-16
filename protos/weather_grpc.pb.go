@@ -28,7 +28,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type WeatherServiceClient interface {
-	GetWeather(ctx context.Context, in *GetWeatherRequest, opts ...grpc.CallOption) (*Weather, error)
+	GetWeather(ctx context.Context, in *GetWeatherRequest, opts ...grpc.CallOption) (*WeatherResponse, error)
 }
 
 type weatherServiceClient struct {
@@ -39,9 +39,9 @@ func NewWeatherServiceClient(cc grpc.ClientConnInterface) WeatherServiceClient {
 	return &weatherServiceClient{cc}
 }
 
-func (c *weatherServiceClient) GetWeather(ctx context.Context, in *GetWeatherRequest, opts ...grpc.CallOption) (*Weather, error) {
+func (c *weatherServiceClient) GetWeather(ctx context.Context, in *GetWeatherRequest, opts ...grpc.CallOption) (*WeatherResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(Weather)
+	out := new(WeatherResponse)
 	err := c.cc.Invoke(ctx, WeatherService_GetWeather_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -53,7 +53,7 @@ func (c *weatherServiceClient) GetWeather(ctx context.Context, in *GetWeatherReq
 // All implementations must embed UnimplementedWeatherServiceServer
 // for forward compatibility.
 type WeatherServiceServer interface {
-	GetWeather(context.Context, *GetWeatherRequest) (*Weather, error)
+	GetWeather(context.Context, *GetWeatherRequest) (*WeatherResponse, error)
 	mustEmbedUnimplementedWeatherServiceServer()
 }
 
@@ -64,7 +64,7 @@ type WeatherServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedWeatherServiceServer struct{}
 
-func (UnimplementedWeatherServiceServer) GetWeather(context.Context, *GetWeatherRequest) (*Weather, error) {
+func (UnimplementedWeatherServiceServer) GetWeather(context.Context, *GetWeatherRequest) (*WeatherResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GetWeather not implemented")
 }
 func (UnimplementedWeatherServiceServer) mustEmbedUnimplementedWeatherServiceServer() {}

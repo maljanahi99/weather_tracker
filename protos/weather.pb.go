@@ -25,7 +25,8 @@ const (
 
 type GetWeatherRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	WeatherId     uint32                 `protobuf:"varint,1,opt,name=weather_id,json=weatherId,proto3" json:"weather_id,omitempty"`
+	Latitude      float32                `protobuf:"fixed32,1,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Longitude     float32                `protobuf:"fixed32,2,opt,name=longitude,proto3" json:"longitude,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -60,38 +61,41 @@ func (*GetWeatherRequest) Descriptor() ([]byte, []int) {
 	return file_weather_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *GetWeatherRequest) GetWeatherId() uint32 {
+func (x *GetWeatherRequest) GetLatitude() float32 {
 	if x != nil {
-		return x.WeatherId
+		return x.Latitude
 	}
 	return 0
 }
 
-type Weather struct {
-	state            protoimpl.MessageState `protogen:"open.v1"`
-	Id               int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Timezone         string                 `protobuf:"bytes,2,opt,name=timezone,proto3" json:"timezone,omitempty"`
-	TimeAbbreviation string                 `protobuf:"bytes,3,opt,name=time_abbreviation,json=timeAbbreviation,proto3" json:"time_abbreviation,omitempty"`
-	Hourly           *Hourly                `protobuf:"bytes,4,opt,name=hourly,proto3" json:"hourly,omitempty"`
-	HourlyUnits      *HourlyUnits           `protobuf:"bytes,5,opt,name=hourly_units,json=hourlyUnits,proto3" json:"hourly_units,omitempty"`
-	unknownFields    protoimpl.UnknownFields
-	sizeCache        protoimpl.SizeCache
+func (x *GetWeatherRequest) GetLongitude() float32 {
+	if x != nil {
+		return x.Longitude
+	}
+	return 0
 }
 
-func (x *Weather) Reset() {
-	*x = Weather{}
+type WeatherResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Current       *Current               `protobuf:"bytes,1,opt,name=current,proto3" json:"current,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *WeatherResponse) Reset() {
+	*x = WeatherResponse{}
 	mi := &file_weather_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Weather) String() string {
+func (x *WeatherResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Weather) ProtoMessage() {}
+func (*WeatherResponse) ProtoMessage() {}
 
-func (x *Weather) ProtoReflect() protoreflect.Message {
+func (x *WeatherResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_weather_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -103,68 +107,39 @@ func (x *Weather) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Weather.ProtoReflect.Descriptor instead.
-func (*Weather) Descriptor() ([]byte, []int) {
+// Deprecated: Use WeatherResponse.ProtoReflect.Descriptor instead.
+func (*WeatherResponse) Descriptor() ([]byte, []int) {
 	return file_weather_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Weather) GetId() int32 {
+func (x *WeatherResponse) GetCurrent() *Current {
 	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *Weather) GetTimezone() string {
-	if x != nil {
-		return x.Timezone
-	}
-	return ""
-}
-
-func (x *Weather) GetTimeAbbreviation() string {
-	if x != nil {
-		return x.TimeAbbreviation
-	}
-	return ""
-}
-
-func (x *Weather) GetHourly() *Hourly {
-	if x != nil {
-		return x.Hourly
+		return x.Current
 	}
 	return nil
 }
 
-func (x *Weather) GetHourlyUnits() *HourlyUnits {
-	if x != nil {
-		return x.HourlyUnits
-	}
-	return nil
+type Current struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Temperature   float32                `protobuf:"fixed32,1,opt,name=temperature,proto3" json:"temperature,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
 }
 
-type Hourly struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Time           string                 `protobuf:"bytes,1,opt,name=time,proto3" json:"time,omitempty"`
-	Temperature_2M float64                `protobuf:"fixed64,2,opt,name=temperature_2m,json=temperature2m,proto3" json:"temperature_2m,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *Hourly) Reset() {
-	*x = Hourly{}
+func (x *Current) Reset() {
+	*x = Current{}
 	mi := &file_weather_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Hourly) String() string {
+func (x *Current) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Hourly) ProtoMessage() {}
+func (*Current) ProtoMessage() {}
 
-func (x *Hourly) ProtoReflect() protoreflect.Message {
+func (x *Current) ProtoReflect() protoreflect.Message {
 	mi := &file_weather_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -176,91 +151,33 @@ func (x *Hourly) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Hourly.ProtoReflect.Descriptor instead.
-func (*Hourly) Descriptor() ([]byte, []int) {
+// Deprecated: Use Current.ProtoReflect.Descriptor instead.
+func (*Current) Descriptor() ([]byte, []int) {
 	return file_weather_proto_rawDescGZIP(), []int{2}
 }
 
-func (x *Hourly) GetTime() string {
+func (x *Current) GetTemperature() float32 {
 	if x != nil {
-		return x.Time
-	}
-	return ""
-}
-
-func (x *Hourly) GetTemperature_2M() float64 {
-	if x != nil {
-		return x.Temperature_2M
+		return x.Temperature
 	}
 	return 0
-}
-
-type HourlyUnits struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Temperature_2M string                 `protobuf:"bytes,2,opt,name=temperature_2m,json=temperature2m,proto3" json:"temperature_2m,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *HourlyUnits) Reset() {
-	*x = HourlyUnits{}
-	mi := &file_weather_proto_msgTypes[3]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *HourlyUnits) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*HourlyUnits) ProtoMessage() {}
-
-func (x *HourlyUnits) ProtoReflect() protoreflect.Message {
-	mi := &file_weather_proto_msgTypes[3]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use HourlyUnits.ProtoReflect.Descriptor instead.
-func (*HourlyUnits) Descriptor() ([]byte, []int) {
-	return file_weather_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *HourlyUnits) GetTemperature_2M() string {
-	if x != nil {
-		return x.Temperature_2M
-	}
-	return ""
 }
 
 var File_weather_proto protoreflect.FileDescriptor
 
 const file_weather_proto_rawDesc = "" +
 	"\n" +
-	"\rweather.proto\"2\n" +
-	"\x11GetWeatherRequest\x12\x1d\n" +
+	"\rweather.proto\"M\n" +
+	"\x11GetWeatherRequest\x12\x1a\n" +
+	"\blatitude\x18\x01 \x01(\x02R\blatitude\x12\x1c\n" +
+	"\tlongitude\x18\x02 \x01(\x02R\tlongitude\"5\n" +
+	"\x0fWeatherResponse\x12\"\n" +
+	"\acurrent\x18\x01 \x01(\v2\b.CurrentR\acurrent\"+\n" +
+	"\aCurrent\x12 \n" +
+	"\vtemperature\x18\x01 \x01(\x02R\vtemperature2F\n" +
+	"\x0eWeatherService\x124\n" +
 	"\n" +
-	"weather_id\x18\x01 \x01(\rR\tweatherId\"\xb5\x01\n" +
-	"\aWeather\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1a\n" +
-	"\btimezone\x18\x02 \x01(\tR\btimezone\x12+\n" +
-	"\x11time_abbreviation\x18\x03 \x01(\tR\x10timeAbbreviation\x12\x1f\n" +
-	"\x06hourly\x18\x04 \x01(\v2\a.HourlyR\x06hourly\x120\n" +
-	"\fhourly_units\x18\x05 \x01(\v2\r.Hourly_unitsR\vhourlyUnits\"C\n" +
-	"\x06Hourly\x12\x12\n" +
-	"\x04time\x18\x01 \x01(\tR\x04time\x12%\n" +
-	"\x0etemperature_2m\x18\x02 \x01(\x01R\rtemperature2m\"5\n" +
-	"\fHourly_units\x12%\n" +
-	"\x0etemperature_2m\x18\x02 \x01(\tR\rtemperature2m2>\n" +
-	"\x0eWeatherService\x12,\n" +
-	"\n" +
-	"GetWeather\x12\x12.GetWeatherRequest\x1a\b.Weather\"\x00B7Z5github.com/maljanahi99/weather_tracker/protos/weatherb\x06proto3"
+	"GetWeather\x12\x12.GetWeatherRequest\x1a\x10.WeatherResponse\"\x00B7Z5github.com/maljanahi99/weather_tracker/protos/weatherb\x06proto3"
 
 var (
 	file_weather_proto_rawDescOnce sync.Once
@@ -274,23 +191,21 @@ func file_weather_proto_rawDescGZIP() []byte {
 	return file_weather_proto_rawDescData
 }
 
-var file_weather_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
+var file_weather_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_weather_proto_goTypes = []any{
 	(*GetWeatherRequest)(nil), // 0: GetWeatherRequest
-	(*Weather)(nil),           // 1: Weather
-	(*Hourly)(nil),            // 2: Hourly
-	(*HourlyUnits)(nil),       // 3: Hourly_units
+	(*WeatherResponse)(nil),   // 1: WeatherResponse
+	(*Current)(nil),           // 2: Current
 }
 var file_weather_proto_depIdxs = []int32{
-	2, // 0: Weather.hourly:type_name -> Hourly
-	3, // 1: Weather.hourly_units:type_name -> Hourly_units
-	0, // 2: WeatherService.GetWeather:input_type -> GetWeatherRequest
-	1, // 3: WeatherService.GetWeather:output_type -> Weather
-	3, // [3:4] is the sub-list for method output_type
-	2, // [2:3] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+	2, // 0: WeatherResponse.current:type_name -> Current
+	0, // 1: WeatherService.GetWeather:input_type -> GetWeatherRequest
+	1, // 2: WeatherService.GetWeather:output_type -> WeatherResponse
+	2, // [2:3] is the sub-list for method output_type
+	1, // [1:2] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_weather_proto_init() }
@@ -304,7 +219,7 @@ func file_weather_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_weather_proto_rawDesc), len(file_weather_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

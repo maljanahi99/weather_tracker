@@ -5,26 +5,18 @@ syntax = "proto3";
 option go_package = "github.com/maljanahi99/weather_tracker/protos/weather";
 
 message GetWeatherRequest {
-  uint32 weather_id = 1;
+  float latitude = 1;
+  float longitude = 2;
 }
 
-message Weather {
-  int32 id = 1;
-  string timezone = 2;
-  string time_abbreviation = 3;
-  Hourly hourly = 4;
-  Hourly_units hourly_units = 5;
+message WeatherResponse {
+  Current current = 1;
 }
 
-message Hourly {
-  string time = 1;
-  double temperature_2m = 2;
-}
-
-message Hourly_units {
-  string temperature_2m = 2;
+message Current {
+ float temperature = 1;
 }
 
 service WeatherService {
-  rpc GetWeather(GetWeatherRequest) returns (Weather) {};
+  rpc GetWeather(GetWeatherRequest) returns (WeatherResponse) {};
 }
