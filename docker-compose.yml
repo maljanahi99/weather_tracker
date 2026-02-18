@@ -11,5 +11,21 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
+  migrate:
+    image: migrate/migrate:v4.15.2
+    volumes:
+      - ./db/migrations:/migrations
+    command:
+      - "-path=/migrations"
+      - "-database=postgres://dev_user:dev_password@db:5432/dev_db?sslmode=disable"
+    depends_on:
+      - db
+    networks:
+      - weather_net
+
 volumes:
   postgres_data:
+
+networks:
+  weather_net:
+    driver: bridge
