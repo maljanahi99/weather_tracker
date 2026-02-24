@@ -10,14 +10,21 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - weather_net
 
   migrate:
     image: migrate/migrate:v4.15.2
     volumes:
       - ./db/migrations:/migrations
     command:
-      - "-path=/migrations"
-      - "-database=postgres://dev_user:dev_password@db:5432/dev_db?sslmode=disable"
+      [
+        "-path",
+        "/migrations",
+        "-database",
+        "postgres://dev_user:dev_password@db:5432/dev_db?sslmode=disable&search_path=public",
+        "up",
+      ]
     depends_on:
       - db
     networks:
