@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"time"
 
+	_ "github.com/lib/pq"
 	pb "github.com/maljanahi99/weather_tracker/protos"
 )
 
@@ -68,13 +69,11 @@ func (s *Server) GetWeather(ctx context.Context, req *pb.GetWeatherRequest) (*pb
 	}
 	// query: postgres insert query takes (latitude, longitude, temperature)
 	sqlStatement := `
-       INSERT INTO weather_reports (latitude, longitude, temperature)
-       VALUES (52.52, 13.41, -3)`
-	// use the connection to exec the query
-
-	_, err = db.Exec(sqlStatement)
-	if err != nil {
-		panic(err)
+		INSERT INTO weather_reports (latitude, longitude, temperature)
+		VALUES ($1, $2, $3)
+	`
+	if _, err := db.ExecContext(ctx, sqlStatement, req.Latitude, req.Longitude, data.Current.Temperature); err != nil {
+		return nil, fmt.Errorf("failed to insert weather report: %w", err)
 	}
 
 	return &pb.WeatherResponse{
