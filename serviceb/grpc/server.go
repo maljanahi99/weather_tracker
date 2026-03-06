@@ -6,19 +6,19 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	_ "github.com/lib/pq"
 	pb "github.com/maljanahi99/weather_tracker/protos"
 )
 
-const (
-	host     = "localhost"
-	port     = 5432
-	user     = "dev_user"
-	password = "dev_password"
-	dbname   = "dev_db"
-)
+func getEnvOrDefault(key, fallback string) string {
+	if v := os.Getenv(key); v != "" {
+		return v
+	}
+	return fallback
+}
 
 type Server struct {
 	pb.UnimplementedWeatherServiceServer
@@ -53,9 +53,15 @@ func (s *Server) GetWeather(ctx context.Context, req *pb.GetWeatherRequest) (*pb
 	}
 
 	// db connection
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+	dbHost := getEnvOrDefault("DB_HOST", "localhost")
+	dbPort := getEnvOrDefault("DB_PORT", "5432")
+	dbUser := getEnvOrDefault("POSTGRES_USER", "dev_user")
+	dbPassword := getEnvOrDefault("POSTGRES_PASSWORD", "dev_password")
+	dbName := getEnvOrDefault("POSTGRES_DB", "dev_db")
+
+	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s "+
 		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+		dbHost, dbPort, dbUser, dbPassword, dbName)
 	// Open database connection
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
