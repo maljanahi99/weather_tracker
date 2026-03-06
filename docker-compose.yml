@@ -1,4 +1,43 @@
 services:
+  servicea:
+    build:
+      context: .
+      dockerfile: servicea/Dockerfile
+    container_name: servicea
+    tty: true
+    environment:
+      HTTP_PORT: 8080
+      SERVICEB_ADDR: "serviceb:50051"
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_password
+      POSTGRES_DB: dev_db
+      DB_HOST: db
+      DB_PORT: "5432"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+      - serviceb
+    networks:
+      - weather_net
+  serviceb:
+    build:
+      context: .
+      dockerfile: serviceb/grpc/Dockerfile
+    container_name: serviceb
+    tty: true
+    environment:
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_password
+      POSTGRES_DB: dev_db
+      DB_HOST: db
+      DB_PORT: "5432"
+    ports:
+      - "50051:50051"
+    depends_on:
+      - db
+    networks:
+      - weather_net
   db:
     image: postgres:15-alpine
     container_name: my-postgres-db

@@ -22,7 +22,7 @@ func (s *HTTPServer) Weather(router *mux.Router) {
 }
 
 func (s *HTTPServer) weatherHandler(w http.ResponseWriter, r *http.Request) {
-	ctx, cancel := context.WithTimeout(r.Context(), 3*time.Second)
+	ctx, cancel := context.WithTimeout(r.Context(), 15*time.Second)
 	defer cancel()
 
 	resp, err := s.ServiceB.GetWeather(ctx, &pb.GetWeatherRequest{
